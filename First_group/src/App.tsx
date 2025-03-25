@@ -1,4 +1,5 @@
 import './App.css'
+import BoxGenerator from './Collaborators/ZMZ/index'
 
 function App() {
 
@@ -7,6 +8,7 @@ function App() {
       <h1>
         Hello World
       </h1>
+      <div>{BoxGenerator()}</div>
     </>
   )
 }
