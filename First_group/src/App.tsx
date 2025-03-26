@@ -1,16 +1,13 @@
-import './App.css'
-import BoxGenerator from './Collaborators/ZMZ/index'
+import PersonalProfile from './Collaborators/QYH/PersonalProfile.tsx';
 
-function App() {
+const App = () => {
 
   return (
     <>
-      <h1>
-        Hello World
-      </h1>
-      <div>{BoxGenerator()}</div>
+      
+      <PersonalProfile ></PersonalProfile >
     </>
-  )
+  );
 }
 
-export default App
+export default App;
