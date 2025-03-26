@@ -8,7 +8,7 @@ const comText = () =>{
 
     return(
         <>
-            <view>提交测试1</view>
+            <view>第二次账号更换提交</view>
         </>
     )   
 
