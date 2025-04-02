@@ -1,3 +1,4 @@
+
 import React from'react';
 import Modal from './Collaborators/QYH/Modal';
 
@@ -11,5 +12,5 @@ const App: React.FC = () => {
         </div>
     );
 };
-
 export default App;
+
