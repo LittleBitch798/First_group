@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, RefObject } from 'react';
-import QYH from './Collaborators/QYH/PersonalProfile';
+// import QYH from './Collaborators/QYH/PersonalProfile';
+import ProductShowcase from './Collaborators/ZMZ/ProductShowcase';
 import HLS from './Collaborators/HLS/head';
 
 type SectionRefs = {
@@ -207,7 +208,9 @@ export default function Navigation() {
 
   {/* 更多2 Section */}
   <div ref={sectionRefs.more2} className="h-screen bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-    <h2 className="text-3xl font-semibold text-gray-700 dark:text-gray-300">更多内容 2</h2>
+    <h2 className="text-3xl font-semibold text-gray-700 dark:text-gray-300">
+      <ProductShowcase onClose={() => console.log('Product showcase closed')} />
+    </h2>
   </div>
 
   {/* 更多3 Section */}
