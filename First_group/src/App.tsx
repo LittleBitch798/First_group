@@ -8,7 +8,10 @@ type SectionRefs = {
 
 export default function Navigation() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
+  const [isDarkMode, setIsDarkMode] = useState(() => 
+    localStorage.getItem('theme') === 'dark' || 
+    (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  );
   const [searchTerm, setSearchTerm] = useState('');
 
   const sectionRefs: SectionRefs = {
@@ -33,63 +36,56 @@ export default function Navigation() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // 同步 isDarkMode 状态到 document.documentElement
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
+      localStorage.theme = 'dark';
     } else {
       document.documentElement.classList.remove('dark');
+      localStorage.theme = 'light';
     }
   }, [isDarkMode]);
 
   const scrollToSection = (ref: RefObject<HTMLDivElement | null>) => {
-    if (ref.current) {
-      window.scrollTo({ top: ref.current.offsetTop, behavior: 'smooth' });
-    }
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const toggleTheme = () => {
-    setIsDarkMode((prevMode) => {
-      const newTheme = !prevMode ? 'dark' : 'light';
-      localStorage.setItem('theme', newTheme);
-      return !prevMode;
-    });
+    setIsDarkMode(prev => !prev);
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark' : ''} ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
-      <nav className="fixed w-full z-50 transition-all duration-300 bg-white shadow">
+    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark bg-gray-900' : 'bg-white'}`}>
+      <nav className={`fixed w-full z-50 transition-all duration-300 shadow ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-4">
-              <button
-                onClick={() => scrollToSection(sectionRefs.home)}
-                className="px-4 py-2.5 font-semibold text-gray-800 hover:text-gray-900 transition-all hover:bg-gray-100 backdrop-blur-sm transform hover:scale-105 active:scale-95"
-              >
-                首页
-              </button>
-              <button
-                onClick={() => scrollToSection(sectionRefs.menu)}
-                className="px-4 py-2.5 font-semibold text-gray-800 hover:text-gray-900 transition-all hover:bg-gray-100 backdrop-blur-sm transform hover:scale-105 active:scale-95"
-              >
-                菜单
-              </button>
-              <button
-                onClick={() => scrollToSection(sectionRefs.about)}
-                className="px-4 py-2.5 font-semibold text-gray-800 hover:text-gray-900 transition-all hover:bg-gray-100 backdrop-blur-sm transform hover:scale-105 active:scale-95"
-              >
-                简介
-              </button>
-              <button
-                onClick={() => scrollToSection(sectionRefs.contact)}
-                className="px-4 py-2.5 font-semibold text-gray-800 hover:text-gray-900 transition-all hover:bg-gray-100 backdrop-blur-sm transform hover:scale-105 active:scale-95"
-              >
-                联系
-              </button>
+              {['home', 'menu', 'about', 'contact'].map((section) => (
+                <button
+                  key={section}
+                  onClick={() => scrollToSection(sectionRefs[section])}
+                  className={`px-4 py-2.5 font-semibold transition-all backdrop-blur-sm transform hover:scale-105 active:scale-95 ${
+                    isDarkMode 
+                      ? 'text-gray-300 hover:text-gray-100 hover:bg-gray-700' 
+                      : 'text-gray-800 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
+                >
+                  {{
+                    home: '首页',
+                    menu: '菜单',
+                    about: '简介',
+                    contact: '联系'
+                  }[section]}
+                </button>
+              ))}
               <div ref={dropdownRef} className="relative">
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="px-4 py-2.5 font-semibold text-gray-800 hover:text-gray-900 transition-all hover:bg-gray-100 backdrop-blur-sm transform hover:scale-105 active:scale-95"
+                  className={`px-4 py-2.5 font-semibold transition-all backdrop-blur-sm transform hover:scale-105 active:scale-95 ${
+                    isDarkMode 
+                      ? 'text-gray-300 hover:text-gray-100 hover:bg-gray-700' 
+                      : 'text-gray-800 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
                 >
                   更多
                   <svg className="w-4 h-4 ml-1 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -99,42 +95,35 @@ export default function Navigation() {
                 <div
                   className={`absolute right-0 mt-2 w-48 origin-top-right rounded transition-all duration-300 ${
                     isDropdownOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 invisible'
-                  } bg-white`}
+                  } ${isDarkMode ? 'bg-gray-700' : 'bg-white'} shadow-lg`}
                 >
-                  <button
-                    onClick={() => {
-                      scrollToSection(sectionRefs.more1);
-                      setIsDropdownOpen(false);
-                    }}
-                    className="block w-full px-4 py-3 text-sm text-gray-800 text-left transition-colors hover:bg-gray-100"
-                  >
-                    更多1
-                  </button>
-                  <button
-                    onClick={() => {
-                      scrollToSection(sectionRefs.more2);
-                      setIsDropdownOpen(false);
-                    }}
-                    className="block w-full px-4 py-3 text-sm text-gray-800 text-left transition-colors hover:bg-gray-100"
-                  >
-                    更多2
-                  </button>
-                  <button
-                    onClick={() => {
-                      scrollToSection(sectionRefs.more3);
-                      setIsDropdownOpen(false);
-                    }}
-                    className="block w-full px-4 py-3 text-sm text-gray-800 text-left transition-colors hover:bg-gray-100"
-                  >
-                    更多3
-                  </button>
+                  {['more1', 'more2', 'more3'].map((section, index) => (
+                    <button
+                      key={section}
+                      onClick={() => {
+                        scrollToSection(sectionRefs[section]);
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`block w-full px-4 py-3 text-sm text-left transition-colors ${
+                        isDarkMode
+                          ? 'text-gray-200 hover:bg-gray-600'
+                          : 'text-gray-800 hover:bg-gray-100'
+                      }`}
+                    >
+                      更多{index + 1}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
             <div className="flex items-center space-x-4">
               <button
                 onClick={toggleTheme}
-                className="p-2.5 rounded backdrop-blur-sm transition-all transform hover:scale-110 bg-gray-200 hover:bg-gray-300 text-gray-800"
+                className={`p-2.5 rounded backdrop-blur-sm transition-all transform hover:scale-110 ${
+                  isDarkMode 
+                    ? 'bg-gray-700 hover:bg-gray-600 text-yellow-400' 
+                    : 'bg-gray-200 hover:bg-gray-300 text-blue-600'
+                }`}
               >
                 {isDarkMode ? (
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -162,10 +151,16 @@ export default function Navigation() {
                   placeholder="搜索..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2.5 rounded backdrop-blur-sm transition-all w-48 bg-gray-100 border border-gray-300 text-gray-800 placeholder-gray-500 focus:border-blue-400"
+                  className={`pl-10 pr-4 py-2.5 rounded backdrop-blur-sm transition-all w-48 border ${
+                    isDarkMode
+                      ? 'bg-gray-700 border-gray-600 text-gray-200 placeholder-gray-400 focus:border-blue-500'
+                      : 'bg-gray-100 border-gray-300 text-gray-800 placeholder-gray-500 focus:border-blue-400'
+                  }`}
                 />
                 <svg
-                  className="w-5 h-5 absolute left-3 top-3 text-gray-500"
+                  className={`w-5 h-5 absolute left-3 top-3 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                  }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -177,44 +172,44 @@ export default function Navigation() {
           </div>
         </div>
       </nav>
+      
       <div className="pt-20">
         {/* Sections */}
-        <div className="pt-20">
-  {/* 首页 Section */}
-  <div ref={sectionRefs.home} className="h-screen flex items-center justify-center">
-    <HLS></HLS>
-  </div>
+        <div ref={sectionRefs.home} className="h-screen w-screen flex items-center justify-center">
+          <div className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+          <HLS />
+          </div>
+        </div>
 
-  {/* 菜单 Section */}
-  <div ref={sectionRefs.menu} className="h-screen  flex items-center justify-center">
-    <h2 className="text-3xl font-semibold text-gray-700 dark:text-gray-300">这里是菜单内容</h2>
-  </div>
+        <div ref={sectionRefs.menu} className="h-screen flex items-center justify-center">
+          <h2 className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            这里是菜单内容
+          </h2>
+        </div>
 
-  {/* 简介 Section */}
-  <div ref={sectionRefs.about} className="h-screen   flex items-center justify-center">
-    <h2 className="text-3xl font-semibold text-gray-800 dark:text-gray-200">关于我们的简介</h2>
-  </div>
+        <div ref={sectionRefs.about} className="h-screen flex items-center justify-center">
+          <h2 className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+            关于我们的简介
+          </h2>
+        </div>
 
-  {/* 联系 Section */}
-  <div ref={sectionRefs.contact} className="h-screen flex items-center justify-center">
-    <h2 className="text-3xl font-semibold text-gray-700 dark:text-gray-300">联系我们</h2>
-  </div>
+        <div ref={sectionRefs.contact} className="h-screen flex items-center justify-center">
+          <h2 className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            联系我们
+          </h2>
+        </div>
 
-  {/* 更多1 Section */}
-  <div ref={sectionRefs.more1} className="h-screen   flex items-center justify-center">
-    <h2 className="text-3xl font-semibold text-gray-800 dark:text-gray-200">更多内容 1</h2>
-  </div>
-
-  {/* 更多2 Section */}
-  <div ref={sectionRefs.more2} className="h-screen bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-    <h2 className="text-3xl font-semibold text-gray-700 dark:text-gray-300">更多内容 2</h2>
-  </div>
-
-  {/* 更多3 Section */}
-  <div ref={sectionRefs.more3} className="h-screen   flex items-center justify-center">
-    <h2 className="text-3xl font-semibold text-gray-800 dark:text-gray-200">更多内容 3</h2>
-  </div>
-</div>
+        {[1, 2, 3].map((num) => (
+          <div 
+            key={num}
+            ref={sectionRefs[`more${num}`]}
+            className={`h-screen flex items-center justify-center ${num === 2 ? (isDarkMode ? 'bg-gray-800' : 'bg-gray-100') : ''}`}
+          >
+            <h2 className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+              更多内容 {num}
+            </h2>
+          </div>
+        ))}
       </div>
     </div>
   );

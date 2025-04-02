@@ -2,35 +2,34 @@ import React from 'react';
 
 export default function EthereumBanner() {
   return (
-    <section className="relative w-full bg-white dark:bg-gray-900">
-      {/* 大图背景，可以替换为您自己的图片地址 */}
-      <div
-        className="h-[500px] w-full bg-cover bg-center"
-        style={{
-          backgroundImage: 'url("https://ethereum.org/static/28214bbac883669db7beea2ecfe1ae05/31987/welcome-illustration.png")',
-        }}
-      >
-        {/* 半透明遮罩层，可根据需要调整透明度、颜色 */}
-        <div className="bg-black/20 w-full h-full flex items-center justify-center">
-          <div className="text-center text-white px-4 max-w-2xl">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-2 tracking-wide">
-              इथीरियम पर आपका स्वागत है
-            </h1>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-              欢迎来到以太坊
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg leading-relaxed">
-              创造应用程序和社区特性为特征的去中心化平台
-            </p>
-          </div>
-        </div>
+    <section className="w-full w-screen">
+      {/* 上半部分：图片展示及鼠标悬浮效果 */}
+      <div className="relative w-full h-64 md:h-[300px] lg:h-[500px] overflow-hidden group">
+        <img
+          src="public/photo/cat.png"
+          alt="Ethereum Banner"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        {/* 悬浮时改变遮罩层的不透明度 */}
+        <div className="absolute inset-0 opacity-30 transition-opacity duration-500 group-hover:opacity-50"></div>
       </div>
 
-      {/* 如果您想在大图下方再加一些文字或按钮，可以在这里继续布局 */}
-      <div className="max-w-5xl mx-auto px-6 py-12">
-        <p className="text-center text-lg text-gray-700 dark:text-gray-300">
-          这里可以放置一些进一步的说明，或者添加按钮、链接等操作元素，让用户继续浏览或进行交互。
-        </p>
+      {/* 下半部分：原有内容 */}
+      <div className="max-w-5xl mx-auto px-6 py-12 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+        <div className="text-center">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-2 tracking-wide hover:text-pink-500 transition-colors duration-300">
+            ₍ᐢ..ᐢ₎♡ ˗ˋˏ♡ˎˊ˗ ૮(˶ᵔ ᵕ ᵔ˶)ა ૮꒰ ˶• ༝ •˶꒱ა ꒰ᐢ⸝⸝•༝•⸝⸝ᐢ꒱
+          </h1>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 hover:text-blue-600 transition-colors duration-300">
+            欢迎来到我们的社区
+          </h2>
+          <p className="text-sm sm:text-base md:text-lg leading-relaxed hover:text-gray-600 transition-colors duration-300">
+            我有一个苹果，我有一个杯子，啊呀，我有一个苹果杯子！
+          </p>
+          <p className="mt-6 text-lg hover:underline transition-all duration-300">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil quis quibusdam beatae cumque sunt tempora sequi quo, accusantium dolore deleniti. Placeat, odio et rem sint fugit impedit. Incidunt, voluptate temporibus.
+          </p>
+        </div>
       </div>
     </section>
   );
