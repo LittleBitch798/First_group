@@ -1,5 +1,14 @@
 import { useState, useRef, useEffect, RefObject } from 'react';
 import HLS from './Collaborators/HLS/head';
+import HGL from './Collaborators/HGL/LikeDislike';
+import LJJ from './Collaborators/LJJ/MessageBoard';
+import QJS from './Collaborators/QJS/Cail';
+import QWF from './Collaborators/QWF/LoginPage1';
+import QYH from './Collaborators/QYH/Modal';
+import WXH from './Collaborators/WXH/colorPicker';
+import WZ from './Collaborators/WZ/wz2';
+import WZH from './Collaborators/WZH/index';
+import ZMZ from './Collaborators/ZMZ/ProductShowcase';
 
 type SectionRefs = {
   [key: string]: RefObject<HTMLDivElement | null>;
@@ -21,6 +30,9 @@ export default function Navigation() {
     more1: useRef<HTMLDivElement>(null),
     more2: useRef<HTMLDivElement>(null),
     more3: useRef<HTMLDivElement>(null),
+    more4: useRef<HTMLDivElement>(null),
+    more5: useRef<HTMLDivElement>(null),
+    more6: useRef<HTMLDivElement>(null),
   };
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -70,10 +82,10 @@ export default function Navigation() {
                   }`}
                 >
                   {{
-                    home: '首页',
-                    menu: '菜单',
-                    about: '简介',
-                    contact: '联系'
+                    home: '欢迎',
+                    menu: '点赞',
+                    about: '留言',
+                    contact: '查找'
                   }[section]}
                 </button>
               ))}
@@ -96,7 +108,7 @@ export default function Navigation() {
                     isDropdownOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 invisible'
                   } ${isDarkMode ? 'bg-gray-700' : 'bg-white'} shadow-lg`}
                 >
-                  {['more1', 'more2', 'more3'].map((section, index) => (
+                  {['more1', 'more2', 'more3', 'more4', 'more5', 'more6'].map((section, index) => (
                     <button
                       key={section}
                       onClick={() => {
@@ -181,34 +193,64 @@ export default function Navigation() {
         </div>
 
         <div ref={sectionRefs.menu} className="h-screen flex items-center justify-center">
-          <h2 className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-            这里是菜单内容
-          </h2>
+          <div className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <HGL></HGL>
+          </div>
         </div>
 
         <div ref={sectionRefs.about} className="h-screen flex items-center justify-center">
-          <h2 className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
-            关于我们的简介
-          </h2>
+          <div className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+            <LJJ></LJJ>
+          </div>
         </div>
 
         <div ref={sectionRefs.contact} className="h-screen flex items-center justify-center">
-          <h2 className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-            联系我们
-          </h2>
+          <div className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <QJS></QJS>
+          </div>
         </div>
 
-        {[1, 2, 3].map((num) => (
-          <div 
-            key={num}
-            ref={sectionRefs[`more${num}`]}
-            className={`h-screen flex items-center justify-center ${num === 2 ? (isDarkMode ? 'bg-gray-800' : 'bg-gray-100') : ''}`}
-          >
-            <h2 className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
-              更多内容 {num}
-            </h2>
+        <div ref={sectionRefs.more1} className="h-screen flex items-center justify-center">
+          <div className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+            <QWF></QWF>
           </div>
-        ))}
+        </div>
+
+        <div ref={sectionRefs.more2} className="h-screen flex items-center justify-center">
+          <div className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <QYH title="模态框标题"  content={<p>这是模态框的内容，可以是任何 React 节点。</p>}
+            ></QYH>
+          </div>
+        </div>
+
+        <div ref={sectionRefs.more3} className="h-screen flex items-center justify-center">
+          <div className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+            <WXH></WXH>
+          </div>
+        </div>
+
+        <div ref={sectionRefs.more4} className="h-screen flex items-center justify-center">
+          <div className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+            <WZ text="点击我" onClick={() => console.log('按钮被点击')}></WZ>
+          </div>
+        </div>
+
+        <div ref={sectionRefs.more5} className="h-screen flex items-center justify-center">
+          <div className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+            <WZH></WZH>
+          </div>
+        </div>
+
+        <div ref={sectionRefs.more6} className="h-screen flex items-center justify-center">
+          <div className={`text-3xl font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+            <ZMZ></ZMZ>
+          </div>
+        </div>
+
+
+
+
+        
       </div>
     </div>
   );

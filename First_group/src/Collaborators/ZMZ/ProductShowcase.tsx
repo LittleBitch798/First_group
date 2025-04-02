@@ -44,7 +44,7 @@ const ProductShowcase: React.FC<ProductShowcaseProps> = () => {
 
   return (
     //  页面主容器，设置背景色、布局和内边距 
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 w-screen">
        {/* 页面标题，使用 TailwindCSS 设置字体大小、加粗和颜色 */}
       <h1 className="text-4xl font-bold text-gray-800 mb-8">商品展示</h1>
       {/*  商品列表容器，使用网格布局，支持响应式列数 */}
