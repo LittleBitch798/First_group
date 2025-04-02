@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect, RefObject } from 'react';
-import QYH from './Collaborators/QYH/PersonalProfile';
 import HLS from './Collaborators/HLS/head';
 
 type SectionRefs = {
